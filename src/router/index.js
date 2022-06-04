@@ -16,7 +16,7 @@ import AdminLogin from "../components/AdminLogin"
 import AdminProductList from "../components/AdminProductList"
 import UpdateProfile from "../components/UpdateProfile"
 import test from "../components/test"
-
+import vuex from "../store"
 // import { Message } from 'element-ui'
 
 Vue.use(VueRouter)
@@ -28,14 +28,17 @@ const router = new VueRouter({
             redirect: "/login",
         },
         {
+            name: "login",
             path: "/login",
             component: Login,
         },
         {
+            name: "register",
             path: "/register",
             component: Register,
         },
         {
+            name: "loginForm",
             path: "/loginForm",
             component: LoginForm,
         },
@@ -67,7 +70,8 @@ const router = new VueRouter({
             component: MessageList,
         },
         {
-            path: "/Message",
+            name:"Message",
+            path: "/Message/:toUserId",
             component: Message,
         },
         {
@@ -97,5 +101,19 @@ const router = new VueRouter({
         },
     ]
 });
-
+// router.beforeEach(
+//     (to,from,next) => {
+//         if (to.name !== "login"){
+//             // console.log(vuex.state.user.id)
+//             if ("id" in vuex.state.user){
+//                 console.log(vuex.state.user)
+//                 next();
+//             }else{
+//                 console.log("not login")
+//                 next("/login")
+//             }
+            
+//         }
+//     }
+// )
 export default router;

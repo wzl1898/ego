@@ -63,14 +63,12 @@ export default {
   methods: {
     forbid(){
       let data = this.good;
-      console.log(data)
       data.isPassed = 1;
+      console.log(data)
       this.$http({
         method: 'put',
         url: "/good",
-        data: {
-          good: data
-        }
+        data: data
       }).then(
         res => {
           console.log(res)

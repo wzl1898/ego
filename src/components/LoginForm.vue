@@ -67,8 +67,9 @@ export default {
                   console.log("SSE error!!!!!");
                 };
                 sse.onmessage = (e) => {
+                  // console.log("message from sse!!!!!2222");
                   console.log("message from sse!!!!!",  JSON.parse(e.data));
-                  this.saveSseMessage(JSON.parse(JSON.parse(e.data)).data);
+                  this.saveSseMessage(JSON.parse(e.data).data);
                   //vuex中的未读消息加1
                   this.addUnreadMsgCount();
                 }

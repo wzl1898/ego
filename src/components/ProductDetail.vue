@@ -36,6 +36,15 @@
           <div class="productPrice">
             ￥{{ good.goodPrice }}
           </div>
+          <div class="seller">
+            <div class="sellerAvatar" @click="$router.push('/message/' + seller.id)">
+              <img :src="`http://localhost:8080/common/download?name=` + seller.userPtUrl" alt="">
+            </div>
+            <div class="sellerId">
+              {{seller.userName}}
+            </div>
+
+          </div>
           <el-button round type="getit" @click="getit">get it</el-button>
         </div>
       </div>
@@ -58,6 +67,7 @@ export default {
       productName: "云朵吊灯 玻璃材质灯具",
       productIntroduction: "九层新 可刀",
       productPrice: "88",
+      seller: {}
     };
   },
   methods: {
@@ -79,6 +89,18 @@ export default {
       return JSON.parse(this.$route.params.goodStr)
     },
     ...mapState(['user']),
+  },
+  beforeMount(){
+    let good = JSON.parse(this.$route.params.goodStr);
+    this.$http({
+      method: "get",
+      url: "/user/info/" + good.sellerId,
+    }).then(
+      (res) => {
+        console.log("/user/info:", res.data);
+        this.seller = res.data.data;
+      }
+    )
   },
   mounted(){
     console.log(this.good)
@@ -239,5 +261,23 @@ export default {
   width: 120px;
   height: 120px;
   border-radius: 50%;
+}
+.seller{
+  position:absolute;
+  left: 5%;
+  top: 80%;
+  display:flex;
+  align-items: center;
+}
+.sellerAvatar{
+  margin-right: 10px ;
+}
+.sellerAvatar img{
+  height: 80px;
+  width: 80px;
+  border-radius: 40px;
+}
+.sellerId{
+  text-align: center;
 }
 </style>

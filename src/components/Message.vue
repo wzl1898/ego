@@ -9,15 +9,10 @@
 
     <div class="recordContainer">
       <div class="records">
-        <div class="record_wrapper">
-          <div class="record" :class="'msg_left'">
-            <img src="../assets/ProductList.png" alt="" />
-            <div class="text">This is a text</div>
-          </div>
-        </div>
+      
         <div class="record_wrapper" v-for="item in messages" :key="item.sendTime">
           <div class="record" :class="item.origin == user.id ? 'msg_right': 'msg_left'">
-            <img src="../assets/ProductList.png" alt="" />
+            <img :src="item.origin == user.id ? `http://localhost:8080/common/download?name=` + user.userPtUrl : `http://localhost:8080/common/download?name=` + toUser.userPtUrl " alt="" />
             <div class="text">{{item.msg}}</div>
           </div>
         </div>
@@ -41,8 +36,8 @@ export default {
     return {
       inputText: "",
       toUser: {
-        id: "1531270768082575361",
-        userName: "222",
+        id: "",
+        userName: "",
       },
       websock: {},
       messages: [],
@@ -70,6 +65,7 @@ export default {
         isRead: "0",
         msg: this.inputText,
       };
+      this.messages.push(data)
       this.inputText = "";
       this.websock.send(JSON.stringify(data));
     },
@@ -100,6 +96,16 @@ export default {
     },
   },
   beforeMount() {
+    this.toUser.id = this.$route.params.toUserId;
+    this.$http({
+      method: "get",
+      url: "/user/info/" + this.toUser.id,
+    }).then(
+      (res) => {
+        console.log("/user/info/", res.data)
+        this.toUser = res.data.data
+      }
+    )
     this.initSocket();
   },
 };

@@ -13,6 +13,8 @@
           :on-preview="handlePreview"
           :on-remove="handleRemove"
           :on-success="uploadSuccess"
+          :before-upload="handleBeforeUpload"
+          :on-change="handleChange"
           :file-list="fileList"
           :auto-upload="false"
         >
@@ -61,6 +63,7 @@ export default {
       userNickname: "",
       ptUrl: "",
       userAd: "",
+      submitflag: false,
     };
   },
   computed: {
@@ -75,6 +78,15 @@ export default {
     },
     handlePreview(file) {
       console.log(file);
+    },
+    handleBeforeUpload(file){
+      console.log(file);
+      return true;
+    },
+    handleChange(file, fileList){
+      console.log("filelist", fileList);
+      console.log("file", file);
+      this.submitflag = true;
     },
     setPtUrl(ptUrl) {
       console.log("param:", ptUrl);
@@ -106,7 +118,7 @@ export default {
       );
     },
     submit() {
-      if (this.fileList.length !== 0) {
+      if (this.submitflag === true) {
         this.$refs.upload.submit();
       } else {
         let data = this.user;

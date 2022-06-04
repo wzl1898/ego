@@ -74,7 +74,7 @@
                     item.goodName
                   }}</router-link>
                 </div>
-                <div class="price">￥{{ item.goodPrice }} <button class="forbid" v-text="item.isPassed === true ? '通过': '未通过'">审核</button></div>
+                <div class="price">￥{{ item.goodPrice }} <button class="forbid" v-text="item.isPassed === 0 ? '通过': '未通过'" :class="item.isPassed === 0 ? 'passed': 'unpassed'">审核</button></div>
               </div>
             </div>
           </div>
@@ -533,10 +533,13 @@ input {
 }
 .forbid{
   border: 0px;
-  background: rgb(213, 67, 67);
+  background: rgb(242, 125, 125);
   height: 25px;
   color: rgb(255, 255, 255);
   width: 80px;
   border-radius: 10px;
+}
+.passed{
+  background: rgb(144, 226, 154);
 }
 </style>

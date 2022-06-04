@@ -13,6 +13,7 @@ export default {
         context.commit("ADDUNREADMSGCOUNT");
     },
     saveSseMessage(context, val){
+        console.log("val in action:", val)
         context.commit("SAVESSEMESSAGE", val)
     }
 };

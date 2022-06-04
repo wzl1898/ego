@@ -8,17 +8,17 @@
       <div class="textBox">我的消息</div>
     </div>
 
-    <div class="recordContainer" v-for="item in sseMessage" :key="item">
+    <div class="recordContainer" v-for="item in toUserList" :key="item.id">
       <div class="records">
         <!-- <div class="recordsHeader">
           <div class="textBox">交易记录</div>
         </div> -->
-        <div class="record" @click="$router.push('/message')">
+        <div class="record" @click="$router.push('/message/' + item.id)">
           <div class="imgBox">
-            <img class="productPic" src="../assets/LoginFormBg.jpg" alt="pic" />
+            <img class="productPic" :src="`http://localhost:8080/common/download?name=` + item.userPtUrl" alt="pic" />
           </div>
           <div class="infoBox">
-            <div class="productName">{{item.toString()}}</div>
+            <div class="productName">{{item.userName}}</div>
           </div>
           <div class="priceBox">new!</div>
         </div>
@@ -34,21 +34,12 @@ export default {
     data(){
       return {
         toUserList: [],
+        toUserNum: 0,
       }
     },
     methods: {
       initUserList(){
-        for (let i = 0; i < this.sseMessage.length; i++){
-            this.$http({
-              method: "get",
-              url: "/user/" + this.sseMessage[i],
-            }).then(
-              res => {
-                console.log(res.data)
-                this.toUserList.push(res.data.data)
-              }
-            )
-          }
+        
       }
     },
     computed: {
@@ -66,6 +57,36 @@ export default {
         }
       )
     },
+    updated(){
+      // if (this.toUserNum === 0){
+      //   this.toUserNum = 1;
+      //   for (let i = 0; i < this.sseMessage.length; i++){
+
+      //       this.$http({
+      //         method: "get",
+      //         url: "/user/info/" + this.sseMessage[i],
+      //       }).then(
+      //         res => {
+      //           console.log("/user/ssemessage", res.data)
+      //           this.toUserList.push(res.data.data)
+      //         }
+      //       )
+      //     }
+      // }
+    },
+    mounted(){
+      for (let i = 0; i < this.sseMessage.length; i++){
+            this.$http({
+              method: "get",
+              url: "/user/info/" + this.sseMessage[i],
+            }).then(
+              res => {
+                console.log(res.data)
+                this.toUserList.push(res.data.data)
+              }
+            )
+          }
+    }
 }
 </script>
 
